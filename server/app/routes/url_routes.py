@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.database.tables import URLCreate, URL
-from app.services.url_services import create_short_url,get_long_url
+from app.services.url_services import create_short_url,get_long_url,delete_short_url
 from fastapi.responses import RedirectResponse
 import os
 from dotenv import load_dotenv
@@ -25,3 +25,7 @@ def get_url(short_code: str):
     url = get_long_url(short_code)
 
     return RedirectResponse(url=url.long_url)
+
+@router.delete("/urls/{short_code}")
+def delete_url(short_code: str):
+    return delete_short_url(short_code)

@@ -51,4 +51,22 @@ def get_long_url(short_code):
 
     return url
 
+def delete_short_url(short_code):
+    db = SessionLocal()
+
+    url = db.query(URL).filter(
+        URL.short_code == short_code
+    ).first()
+
+    if not url:
+        raise HTTPException(
+            status_code=404,
+            detail="Short URL not found"
+        )
+
+    db.delete(url)
+    db.commit()
+
+    return {"message": "Short URL deleted successfully"}
+
 
